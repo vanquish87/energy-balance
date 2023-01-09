@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section id="main" class="py-5 text-center text-dark">
+    <div class="container-sm">
+        <div class="row justify-content-around align-items-center">
+            <div class="col-md-6 pt-5">
+                <form method="post" action="{% url 'import-csv'%}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" class="form-control" name="csv_file" required />
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button class="btn btn-warning" type="submit">Import CSV</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

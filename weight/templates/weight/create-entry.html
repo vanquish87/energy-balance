@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<section id="main" class="py-5 text-center">
+<section id="main" class="py-5 text-center text-dark">
     <div class="container-sm">
         <div class="row justify-content-around align-items-center">
-            <div class="col-md-8 pt-5">
+            <div class="col-md-4 pt-5">
+                <form method="POST" action="{% url 'create-entry'%}">
+                    {% csrf_token %}
+                    {% for field in form %}
 
+                    <div class="form-floating mb-3">
+                        {{ field }}
+                        <label for="floatingweight">{{ field.label }}</label>
+                        <div class="text-danger">{{ field.errors }}</div>
+                    </div>
 
+                    {% endfor %}
+                    <div class="d-grid gap-2 mt-4">
+                        <button class="btn btn-lg btn-warning" type="submit">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

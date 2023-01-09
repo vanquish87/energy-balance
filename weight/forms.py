@@ -2,6 +2,10 @@ from django.forms import ModelForm
 from django import forms
 from .models import Weight
 
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 class WeightForm(ModelForm):
     class Meta:
         model = Weight
@@ -10,7 +14,9 @@ class WeightForm(ModelForm):
         fields = ['weight', 'calorie_intake', 'date']
         # with this we are modifying classes in html for form
         widgets = {
-            'date': forms.DateField()
+            'date': DateInput(),
+            'weight': forms.NumberInput(attrs={'step':0.05, 'min': 0}),
+            'calorie_intake': forms.NumberInput(attrs={'min': 0}),
             }
 
     def __init__(self, *args, **kwargs):
@@ -18,7 +24,8 @@ class WeightForm(ModelForm):
 
         # to avoid repetition for every field
         for name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'input'})
+            field.widget.attrs.update({'class': 'form-control'})
+            field.widget.attrs.update({'id': f'floating{name}'})
 
         # self.fields['title'].widget.attrs.update({'class': 'input', 'placeholder': 'add title'})
 

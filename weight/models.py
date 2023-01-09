@@ -9,9 +9,12 @@ class Weight(models.Model):
 
     weight = models.DecimalField('Weight (kg)', max_digits=5, decimal_places=2, null=True, blank=True, validators=[MaxValueValidator(150)])
     calorie_intake = models.PositiveIntegerField('Calorie Intake', default=0, null=True, blank=True, validators=[MaxValueValidator(5000)])
-    date = models.DateField(null=True, blank=True)
+    date = models.DateField()
 
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+
+    class Meta:
+        ordering = ['-date']
 
     def __str__(self):
         return (self.user.first_name + '-' + str(self.date))
