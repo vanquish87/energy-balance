@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="main" class="py-5 text-center">
+    <div class="container-sm">
+        <div class="row justify-content-around align-items-center">
+            <div class="col-md-12 pt-5">
+                <div class="col pb-3">
+                    <div>
+                      <canvas id="myChart" style="height: 600px; width: 100%;"></canvas>
+                </div>
+
+                <div class="d-grid gap-3">
+                    <div>
+                        <table class="table table-dark table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Weight (kg)</th>
+                                    <th>Calorie Intake</th>
+                                    <th>7-day MA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for index, row in df.iterrows %}
+                                <tr>
+                                    <td>{{ row.date }}</td>
+                                    <td>{{ row.weight }}</td>
+                                    <td>{{ row.calorie_intake }}</td>
+                                    <td>{{ row.7day_MA }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-------------------------- CHART JS----------------- -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
+<script>
+  // === include 'setup' then 'config' above ===
+  const labels = {{ dates | safe }};
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Weight (7 Day MA)',
+      borderColor: '#32F329',
+      fill: false,
+      tension: .3,
+      pointStyle: 'circle',
+      pointRadius: 0,
+      data: {{ seven_day_ma }},
+    }]
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      responsive: true,
+      tooltips: {
+              mode: 'index',
+              intersect: false
+          },
+          hover: {
+              mode: 'index',
+              intersect: false
+          }
+      }
+  };
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+</script>
+
+{% endblock %}

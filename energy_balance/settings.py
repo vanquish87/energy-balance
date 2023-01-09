@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'index',
     'account',
     'weight',
+    'analytics',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +124,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+# It will show django where static files are located in 'production' environment
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -132,6 +139,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # custom user model that we declared in account.models
 AUTH_USER_MODEL = 'account.Account'
 
+SESSION_COOKIE_AGE = 600
 
 # message tags - many of them already incuded in django -- read django docs
 from django.contrib.messages import constants as messages

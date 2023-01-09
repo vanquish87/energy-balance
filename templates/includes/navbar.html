@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}">FitSikh</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -6,7 +6,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {% if request.user.is_authenticated %}
-            <button class="btn btn-outline-warning ms-auto px-5" type="submit" title="Premium">
+            <button class="btn btn-light ms-auto px-5" type="submit" title="Premium">
                 <a href="#" class="text-decoration-none">{{ request.user.first_name | title }} <i class="bi bi-patch-check-fill"></i></a>
             </button>
             {% endif %}

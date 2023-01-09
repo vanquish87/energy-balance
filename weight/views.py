@@ -9,13 +9,21 @@ from datetime import datetime
 
 
 # Create your views here.
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def create_entry(request):
     form = WeightForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
-            weight = form.save(commit=False)
-            weight.user = request.user
+            print(request.POST)
+            try:
+                weight = Weight.objects.get(date=request.POST['date'], user=request.user)
+                weight.calorie_intake = request.POST['calorie_intake']
+                weight.weight = request.POST['weight']
+                print(weight)
+            except:
+                weight = form.save(commit=False)
+                weight.user = request.user
+
             weight.save()
             messages.success(request, 'New weight entry successful!')
             return redirect('profile')
@@ -26,6 +34,7 @@ def create_entry(request):
     return render(request, 'weight/create-entry.html', context)
 
 
+@login_required(login_url='login')
 def import_csv(request):
     if request.method == 'POST':
         csv_file = request.FILES['csv_file']
@@ -37,7 +46,7 @@ def import_csv(request):
             date = datetime.strptime(row['Date'], '%d/%m/%Y')
             formatted_date = date.strftime('%Y-%m-%d')
             try:
-                weight = Weight.objects.get(date=formatted_date)
+                weight = Weight.objects.get(date=formatted_date, user=request.user)
             except:
                 weight = Weight()
 
@@ -47,7 +56,7 @@ def import_csv(request):
                 weight.weight = row['Weight']
             if row['IN']:
                 weight.calorie_intake = row['IN']
-            print(row['Date'], row['Weight'], row['IN'])
+            # print(row['Date'], row['Weight'], row['IN'])
             weight.user = request.user
             weight.save()
 
