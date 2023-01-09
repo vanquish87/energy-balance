@@ -11,6 +11,8 @@ from datetime import datetime
 # Create your views here.
 @login_required(login_url='login')
 def create_entry(request):
+    weight_latest = Weight.objects.filter(user=request.user).first()
+
     form = WeightForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
@@ -30,7 +32,10 @@ def create_entry(request):
 
         messages.warning(request, 'Form is filled incorrectly.')
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'weight_latest': weight_latest,
+        }
     return render(request, 'weight/create-entry.html', context)
 
 
