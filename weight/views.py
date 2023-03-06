@@ -56,11 +56,11 @@ def import_csv(request):
                 weight = Weight()
 
             weight.date = formatted_date
-
-            if row['Weight']:
-                weight.weight = row['Weight']
-            if row['IN']:
+            weight.weight = row['Weight']
+            try:
                 weight.calorie_intake = row['IN']
+            except:
+                pass
             # print(row['Date'], row['Weight'], row['IN'])
             weight.user = request.user
             weight.save()
