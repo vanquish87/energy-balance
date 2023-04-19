@@ -56,7 +56,7 @@ def import_csv(request):
                 weight = Weight()
 
             weight.date = formatted_date
-            weight.weight = row['Weight']
+            weight.weight = row['Weight'] or None
             try:
                 weight.calorie_intake = row['IN']
             except:
